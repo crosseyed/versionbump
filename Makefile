@@ -100,7 +100,8 @@ deploy:
 
 release:
 	git fetch --tags
-	@echo TODO
+	git tag $(VERSION)
+	git push --tags
 
 lint:
 	golangci-lint run --enable=gocyclo
