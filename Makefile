@@ -3,7 +3,7 @@ BINARY := versionbump
 VERSION ?= $(shell cat VERSION)
 COMMIT := $(shell git rev-parse --short HEAD)
 BUILD_INFO := $(COMMIT)-$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
-BRANCH := $(shell git status -b -u no | awk 'NR==1{print $3;}')
+BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 
 # Utilities
 DOTENV := godotenv -f $(HOME)/.env,.env
@@ -100,6 +100,7 @@ deploy:
 	@echo TODO
 
 release:
+	@echo $(BRANCH)
 ifeq ($(BRANCH),master)
 	git fetch --tags
 	git tag $(VERSION) && git push origin :refs/tags/$(VERSION)
