@@ -100,10 +100,9 @@ deploy:
 	@echo TODO
 
 release:
-	@echo $(BRANCH)
 ifeq ($(BRANCH),master)
 	git fetch --tags
-	git tag $(VERSION) && git push origin :refs/tags/$(VERSION)
+	git tag $(VERSION) && git push origin $(VERSION)
 endif
 
 lint:
