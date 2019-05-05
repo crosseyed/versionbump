@@ -22,7 +22,7 @@ GODIRS = $(shell find . -type d -maxdepth 1 -mindepth 1 | egrep 'cmd|internal|pk
 cmd/versionbump/version.go: VERSION
 	@echo "// This file is generated do not edit" > $@
 	@echo "package main" >> $@
-	@echo "var Version = \"$(VERSION)-$(COMMIT)\"" >> $@
+	@echo "var Version = \"$(VERSION)\"" >> $@
 
 build: cmd/versionbump/version.go
 	@$(DOTENV) make _build
@@ -102,7 +102,7 @@ deploy:
 release:
 ifeq ($(BRANCH),master)
 	git fetch --tags
-	git tag $(VERSION) && git push origin $(VERSION)
+	git tag v$(VERSION) && git push origin $(VERSION)
 endif
 
 lint:
