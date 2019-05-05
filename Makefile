@@ -102,7 +102,7 @@ deploy:
 release:
 ifeq ($(BRANCH),master)
 	git fetch --tags
-	git tag v$(VERSION) && git push origin $(VERSION)
+	git tag v$(VERSION) && git push origin v$(VERSION)
 endif
 
 lint:
