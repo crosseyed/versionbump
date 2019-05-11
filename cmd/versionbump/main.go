@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/crosseyed/versionbump/internal"
-	"github.com/crosseyed/versionbump/pkg/versionbump"
 	"errors"
 	"fmt"
+	"github.com/crosseyed/versionbump/internal"
+	"github.com/crosseyed/versionbump/pkg/versionbump"
 	"os"
 )
 
@@ -49,18 +49,21 @@ func runBump(conf *internal.CliOps) int {
 		atomBump = versionbump.PATCH
 	}
 	if conf.Checktags {
-		hasTags(bump.Version(), conf.File)
+		hasTags(bump.Version())
 	}
 	_ = bump.BumpVersion(atomBump)
 	return 0
 }
 
-func hasTags(ver string, path string) {
+func hasTags(ver string) {
 	path, err := os.Getwd()
 	App.Errors(err, errPanic)
 	git := internal.PlainOpen(path)
 	for _, t := range git.ListTags() {
 		if t == ver {
+			return
+		}
+		if t == "v"+ver {
 			return
 		}
 	}

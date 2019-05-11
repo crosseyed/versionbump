@@ -51,6 +51,16 @@ $(PLATFORMS):
 	-ldflags "-X main.Version=$(VERSION)-$(BUILD_INFO)" \
 		./cmd/$(BINARY)
 
+bumpminor:
+	git fetch --tags
+	versionbump minor --checktags VERSION
+	make cmd/versionbump/version.go
+
+bumpmajor:
+	git fetch --tags
+	versionbump major --checktags VERSION
+	make cmd/versionbump/version.go
+
 clean:
 	rm -rf dist reports tmp vendor versionbump
 
@@ -65,12 +75,13 @@ _deps:
 depsdev:
 	@$(DOTENV) make $(GOGETS)
 
-GOGETS := github.com/jstemmer/go-junit-report github.com/golangci/golangci-lint/cmd/golangci-lint \
-		  github.com/ains/go-test-html github.com/fzipp/gocyclo github.com/joho/godotenv/cmd/godotenv \
+GOGETS := github.com/crosseyed/versionbump/cmd/versionbump github.com/jstemmer/go-junit-report \
+		  github.com/golangci/golangci-lint/cmd/golangci-lint github.com/ains/go-test-html \
+		  github.com/fzipp/gocyclo github.com/joho/godotenv/cmd/godotenv \
 		  github.com/stretchr/testify
 .PHONY: $(GOGETS)
 $(GOGETS):
-	go get -u $@
+	$(GOGETOPTS) go get -u $@
 
 test:
 	@$(DOTENV) make _test
